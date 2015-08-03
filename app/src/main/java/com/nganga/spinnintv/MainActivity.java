@@ -1,17 +1,67 @@
 package com.nganga.spinnintv;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.youtube.player.YouTubePlayer;
+import com.thefinestartist.ytpa.YouTubePlayerActivity;
+import com.thefinestartist.ytpa.enums.Orientation;
+import com.thefinestartist.ytpa.enums.Quality;
+import com.thefinestartist.ytpa.utils.YouTubeApp;
+import com.thefinestartist.ytpa.utils.YouTubeThumbnail;
+import com.thefinestartist.ytpa.utils.YouTubeUrlParser;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
-public class MainActivity extends ActionBarActivity {
+
+
+public class MainActivity extends Activity {
+
+    String VIDEO_ID = YouTubeUrlParser.getVideoId("https://www.youtube.com/watch?v=ilw-qmqZ5zY&list=PL3666F5DD61E96B6D");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(MainActivity.this, YouTubePlayerActivity.class);
+
+// Youtube video ID (Required, You can use YouTubeUrlParser to parse Video Id from url)
+        intent.putExtra(YouTubePlayerActivity.EXTRA_VIDEO_ID, VIDEO_ID);
+
+        YouTubeApp.startVideo(this, VIDEO_ID);
+
+// Youtube player style (DEFAULT as default)
+        intent.putExtra(YouTubePlayerActivity.EXTRA_PLAYER_STYLE, YouTubePlayer.PlayerStyle.DEFAULT);
+
+// Screen Orientation Setting (AUTO for default)
+// AUTO, AUTO_START_WITH_LANDSCAPE, ONLY_LANDSCAPE, ONLY_PORTRAIT
+        intent.putExtra(YouTubePlayerActivity.EXTRA_ORIENTATION, Orientation.AUTO);
+
+// Show audio interface when user adjust volume (true for default)
+        intent.putExtra(YouTubePlayerActivity.EXTRA_SHOW_AUDIO_UI, true);
+
+// If the video is not playable, use Youtube app or Internet Browser to play it
+// (true for default)
+        intent.putExtra(YouTubePlayerActivity.EXTRA_HANDLE_ERROR, true);
+
+// Animation when closing youtubeplayeractivity (none for default)
+        //intent.putExtra(YouTubePlayerActivity.EXTRA_ANIM_ENTER, R.anim.fade_in);
+        //intent.putExtra(YouTubePlayerActivity.EXTRA_ANIM_EXIT, R.anim.fade_out);
+
+        YouTubeThumbnail.getUrlFromVideoId(VIDEO_ID, Quality.HIGH);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
     }
 
     @Override
