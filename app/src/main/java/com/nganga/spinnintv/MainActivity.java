@@ -21,7 +21,7 @@ import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends Activity {
 
-    String VIDEO_ID = YouTubeUrlParser.getVideoId("https://www.youtube.com/watch?v=ilw-qmqZ5zY&list=PL3666F5DD61E96B6D");
+    String VIDEO_ID = YouTubeUrlParser.getVideoId("https://www.youtube.com/watch?v=Yg7JqhmAaUs&list=PLVOXUojQhsNqAdylgXaD-bxjDQ4EYeiQa");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
